@@ -1,3 +1,7 @@
+use std::{default, env, result};
+
+use rocket::futures::future::ok;
+
 pub struct ServiceConfig {
     pub auth: String,
     pub activity: String,
@@ -7,17 +11,70 @@ pub struct ServiceConfig {
     pub live_chat: String,
     pub notification: String,
     pub plan: String,
+    pub user: String,
+    auth_ip: String,
+    auth_port: String,
+    activity_ip: String,
+    activity_port: String,
+    ai_ip: String,
+    ai_port: String,
+    content_ip: String,
+    content_port: String,
+    logging_ip: String,
+    logging_port: String,
+    live_chat_ip: String,
+    live_chat_port: String,
+    notification_ip: String,
+    notification_port: String,
+    plan_ip: String,
+    plan_port: String,
+    user_ip: String,
+    user_port: String,
+}
+
+pub fn get_var_value(key: String) -> String {
+    match env::var(key){
+        Ok(val) => return val,
+        Err(e) => unimplemented!("{}", e)
+    }
 }
 
 pub fn get_service_config() -> ServiceConfig {
     ServiceConfig {
-        auth: "http://127.0.0.1:9001".to_string(),  
-        activity: "http://127.0.0.1:9002".to_string(),
-        ai: "http://127.0.0.1:9003".to_string(),
-        content: "http://127.0.0.1:9004".to_string(),
-        logging: "http://127.0.0.1:9005".to_string(),
-        live_chat: "http://127.0.0.1:9006".to_string(),
-        notification: "http://127.0.0.1:9007".to_string(),
-        plan: "http://127.0.0.1:9008".to_string(),
+        auth_ip: get_var_value("AUTH_IP".to_string()),
+        auth_port: get_var_value("AUTH_PORT".to_string()),
+        auth: "{auth_ip}:{auth_port}".to_string(), 
+
+        activity_ip: get_var_value("ACTIVITY_IP".to_string()),
+        activity_port: get_var_value("ACTIVITY_PORT".to_string()),
+        activity: "{activity_ip}:{activity_port}".to_string(),
+
+        ai_ip: get_var_value("AI_IP".to_string()),
+        ai_port: get_var_value("AI_PORT".to_string()),
+        ai: "{ai_ip}:{ai_port}".to_string(),
+
+        content_ip: get_var_value("CONTENT_IP".to_string()),
+        content_port: get_var_value("CONTENT_PORT".to_string()),
+        content: "{content_ip}:{content_port}".to_string(),
+
+        logging_ip: get_var_value("LOGGING_IP".to_string()),
+        logging_port: get_var_value("LOGGING_PORT".to_string()),
+        logging: "{logging_ip}:{logging_port}".to_string(),
+
+        live_chat_ip: get_var_value("LIVE_CHAT_IP".to_string()),
+        live_chat_port: get_var_value("LIVE_CHAT_PORT".to_string()),
+        live_chat: "{live_chat_ip}:{live_chat_port}".to_string(),
+
+        notification_ip: get_var_value("NOTIFICATION_IP".to_string()),
+        notification_port: get_var_value("NOTIFICATION_PORT".to_string()),
+        notification: "{notification_ip}:{notification_port}".to_string(),
+
+        plan_ip: get_var_value("PLAN_IP".to_string()),
+        plan_port: get_var_value("PLAN_PORT".to_string()),
+        plan: "{plan_ip}:{plan_port}".to_string(),
+
+        user_ip: get_var_value("USER_IP".to_string()),
+        user_port: get_var_value("USER_PORT".to_string()),
+        user: "{user_ip}:{user_port}".to_string(),
     }
 }

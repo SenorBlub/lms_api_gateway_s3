@@ -5,7 +5,7 @@ use rocket::serde::json::Json;
 use reqwest::Client;
 use crate::auth::validate_jwt;
 use crate::services::{get_service_config, ServiceConfig};
-use serde::Deserialize;
+use serde::Deserialize;    
 
 #[derive(Debug)]
 pub struct AuthenticatedUser {
@@ -73,6 +73,7 @@ pub async fn handle_get(service_name: String, path: PathBuf, _user: Authenticate
         "live_chat" => format!("{}/{}", config.live_chat, path_str),
         "notification" => format!("{}/{}", config.notification, path_str),  
         "plan" => format!("{}/{}", config.plan, path_str),
+        "user" => format!("{}/{}", config.user, path_str),
         _ => return Err(Status::NotFound),
     };
 
@@ -103,6 +104,7 @@ pub async fn handle_post(service_name: String,
         "live_chat" => format!("{}/{}", config.live_chat, path_str),
         "notification" => format!("{}/{}", config.notification, path_str),  
         "plan" => format!("{}/{}", config.plan, path_str),
+        "user" => format!("{}/{}", config.user, path_str),
         _ => return Err(Status::NotFound),
     };
 
@@ -133,6 +135,7 @@ pub async fn handle_put(service_name: String, path: PathBuf, _user: Authenticate
         "live_chat" => format!("{}/{}", config.live_chat, path_str),
         "notification" => format!("{}/{}", config.notification, path_str),  
         "plan" => format!("{}/{}", config.plan, path_str),
+        "user" => format!("{}/{}", config.user, path_str),
         _ => return Err(Status::NotFound),
     };
 
@@ -163,6 +166,7 @@ pub async fn handle_delete(service_name: String, path: PathBuf, _user: Authentic
         "live_chat" => format!("{}/{}", config.live_chat, path_str),
         "notification" => format!("{}/{}", config.notification, path_str),  
         "plan" => format!("{}/{}", config.plan, path_str),
+        "user" => format!("{}/{}", config.user, path_str),
         _ => return Err(Status::NotFound),
     };
 
