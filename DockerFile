@@ -1,12 +1,16 @@
-# Build stage
 FROM rust:1.81 as builder
 WORKDIR /app
 COPY . .
 RUN cargo build --release
 
-# Runtime stage
-FROM debian:buster-slim
+FROM debian:bullseye-slim
 WORKDIR /app
+
+RUN apt-get update && apt-get install -y \\
+    libssl3 \\
+    ca-certificates \\
+    && rm -rf /var/lib/apt/lists/*
+
 COPY --from=builder /app/target/release/lms_api_gateway_s3 .
 EXPOSE 8080
 ENTRYPOINT ["./lms_api_gateway_s3"]
