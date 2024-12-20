@@ -8,7 +8,14 @@ struct Claims {
     exp: usize,   // Expiry time (as UTC timestamp)
 }
 
-const SECRET: &[u8] = b"very-secret-key";
+pub fn get_secret_key() -> &[u8] {
+    match env::var("JWT_SECRET_KEY"){
+        Ok(val) => return val,
+        Err(e) => unimplemented!("{}", e)
+    }
+}
+
+const SECRET: &[u8] = b"{get_secret_key()}";
 
 pub fn validate_jwt(token: &str) -> Result<String, Error> {
     let token_data: TokenData<Claims> = decode::<Claims>(
