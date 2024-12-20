@@ -9,7 +9,7 @@ struct Claims {
     exp: usize,   // Expiry time (as UTC timestamp)
 }
 
-pub fn get_secret_key() -> &'static [u8] {
+pub fn get_secret_key() -> String {
     match env::var("JWT_SECRET_KEY"){
         Ok(val) => return val,
         Err(e) => unimplemented!("{}", e)
