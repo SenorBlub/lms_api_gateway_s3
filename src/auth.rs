@@ -16,7 +16,7 @@ pub fn get_secret_key() -> &'static [u8] {
     }
 }
 
-static SECRET: &[u8] = b"{get_secret_key()}";
+static SECRET: &'static [u8] = b"{get_secret_key()}";
 
 pub fn validate_jwt(token: &str) -> Result<String, Error> {
     let token_data: TokenData<Claims> = decode::<Claims>(
