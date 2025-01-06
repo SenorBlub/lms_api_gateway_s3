@@ -1,5 +1,5 @@
 use chrono::Utc;
-use jsonwebtoken::{decode, DecodingKey, Validation, Algorithm, TokenData, errors::ErrorKind};
+use jsonwebtoken::{decode, errors::{Error, ErrorKind}, Algorithm, DecodingKey, TokenData, Validation};
 use serde::Deserialize;
 use std::env;
 
@@ -28,11 +28,11 @@ struct JwtConfig {
 }
 
 /// Fetch the secret key from environment variables
-fn get_secret_key() -> Result<String, ErrorKind> {
-    env::var("JWT_SECRET_KEY").map_err(|_| ErrorKind::InvalidSignature)
+fn get_secret_key() -> Result<String, Error> {
+    env::var("JWT_SECRET_KEY").map_err(|_| Error)
 }
 
-pub fn validate_jwt(token: &str) -> Result<String, ErrorKind> {
+pub fn validate_jwt(token: &str) -> Result<String, Error> {
     let secret = get_secret_key()?;
     
     let token_data: TokenData<JwtConfig> = decode::<JwtConfig>(
@@ -43,7 +43,7 @@ pub fn validate_jwt(token: &str) -> Result<String, ErrorKind> {
 
     let current_timestamp = Utc::now().timestamp() as usize;
     if token_data.claims.exp < current_timestamp {
-        return Err(ErrorKind::ExpiredSignature);
+        return Err(Error);
     }
 
     Ok(token_data.claims.sub)
