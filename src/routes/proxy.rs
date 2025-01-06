@@ -49,7 +49,7 @@ pub async fn authorize_user(service_name: String, data: Json<SimpleJson>) -> Res
     let client = Client::new();
     let response = client
         .post(url)
-        .json(&data) // make this the data for the auth service so the user can authenticate
+        .json(&data.key) // make this the data for the auth service so the user can authenticate
         .send()
         .await
         .map_err(|_| Status::BadGateway)?
