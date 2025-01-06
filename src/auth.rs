@@ -28,11 +28,11 @@ struct JwtConfig {
 }
 
 /// Fetch the secret key from environment variables
-fn get_secret_key() -> Result<String, Error> {
+fn get_secret_key() -> Result<String, ErrorKind> {
     env::var("JWT_SECRET_KEY").map_err(|_| ErrorKind::InvalidSignature)
 }
 
-pub fn validate_jwt(token: &str) -> Result<String, Error> {
+pub fn validate_jwt(token: &str) -> Result<String, ErrorKind> {
     let secret = get_secret_key()?;
     
     let token_data: TokenData<JwtConfig> = decode::<JwtConfig>(
