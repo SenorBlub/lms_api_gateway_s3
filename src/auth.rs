@@ -1,7 +1,5 @@
 use chrono::Utc;
 use jsonwebtoken::{decode, DecodingKey, Validation, Algorithm, TokenData, errors::Error};
-use jsonwebtoken::errors::Error::InvalidSignature;
-use jsonwebtoken::errors::Error::ExpiredSignature;
 use serde::Deserialize;
 use std::env;
 
