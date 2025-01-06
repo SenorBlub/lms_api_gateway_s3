@@ -39,7 +39,7 @@ impl<'r> FromRequest<'r> for AuthenticatedUser {
 
 //not secure
 #[post("/<service_name>/authorize", format = "application/json", data = "<data>")]
-pub async fn authorize_user(service_name: String, data: Json<serde_json::Value>) -> Result<String, Status> {
+pub async fn authorize_user(service_name: String, data: Json<SimpleJson>) -> Result<String, Status> {
     let config: ServiceConfig = get_service_config();
     let url = match service_name.as_str() {
         "auth" => format!("{}/authorize", config.auth),
@@ -49,7 +49,7 @@ pub async fn authorize_user(service_name: String, data: Json<serde_json::Value>)
     let client = Client::new();
     let response = client
         .post(url)
-        .json(&data.0) // make this the data for the auth service so the user can authenticate
+        .json(&data) // make this the data for the auth service so the user can authenticate
         .send()
         .await
         .map_err(|_| Status::BadGateway)?
