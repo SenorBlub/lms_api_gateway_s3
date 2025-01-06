@@ -1,35 +1,40 @@
+use chrono::Utc;
 use jsonwebtoken::{decode, DecodingKey, Validation, Algorithm, TokenData, errors::Error};
 use serde::Deserialize;
 use std::env;
-use Error::InvalidToken;
-use Error::ExpiredSignature;
-use Utc;
 
 #[derive(Debug, Deserialize)]
 struct JwtConfig {
-    Alg: String,
-    Typ: String,
-    Sub: String,
-    Jti: String,
-    Name: String,
-    Iat: usize,
-    Exp: usize,
-    Secret: String,
-    Issuer: String,
-    Audience: String
+    #[serde(rename = "alg")]
+    alg: String,
+    #[serde(rename = "typ")]
+    typ: String,
+    #[serde(rename = "sub")]
+    sub: String,
+    #[serde(rename = "jti")]
+    jti: String,
+    #[serde(rename = "name")]
+    name: String,
+    #[serde(rename = "iat")]
+    iat: usize,
+    #[serde(rename = "exp")]
+    exp: usize,
+    #[serde(rename = "secret")]
+    secret: String,
+    #[serde(rename = "iss")]
+    issuer: String,
+    #[serde(rename = "aud")]
+    audience: String,
 }
 
-pub fn get_secret_key() -> Result<String, String> {
-    match env::var("JWT_SECRET_KEY") {
-        Ok(val) => Ok(val),
-        Err(_) => Err(String::from("Environment variable `JWT_SECRET_KEY` is not set.")),
-    }
+/// Fetch the secret key from environment variables
+fn get_secret_key() -> Result<String, Error> {
+    env::var("JWT_SECRET_KEY").map_err(|_| Error::InvalidSignature)
 }
-
-static SECRET: &'static [u8] = b"{get_secret_key()}";
 
 pub fn validate_jwt(token: &str) -> Result<String, Error> {
-    let secret = get_secret_key().map_err(|e| Error::InvalidToken)?;
+    let secret = get_secret_key()?;
+    
     let token_data: TokenData<JwtConfig> = decode::<JwtConfig>(
         token,
         &DecodingKey::from_secret(secret.as_bytes()),
@@ -37,10 +42,9 @@ pub fn validate_jwt(token: &str) -> Result<String, Error> {
     )?;
 
     let current_timestamp = Utc::now().timestamp() as usize;
-
-    if token_data.claims.Exp < current_timestamp {
+    if token_data.claims.exp < current_timestamp {
         return Err(Error::ExpiredSignature);
     }
 
-    Ok(token_data.claims.Sub)
+    Ok(token_data.claims.sub)
 }
