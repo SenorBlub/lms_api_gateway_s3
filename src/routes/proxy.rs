@@ -42,14 +42,14 @@ impl<'r> FromRequest<'r> for AuthenticatedUser {
 pub async fn authorize_user(service_name: String, data: Json<SimpleJson>) -> Result<String, Status> {
     let config: ServiceConfig = get_service_config();
     let url = match service_name.as_str() {
-        "auth" => format!("{}/{}", config.auth, "authorize"),
+        "auth" => format!("{}/authorize", config.auth),
         _ => return Err(Status::NotFound),
     };
 
     let client = Client::new();
     let response = client
         .post(url)
-        .json(&data.key) // make this the data for the auth service so the user can authenticate
+        .json(&data.0) // make this the data for the auth service so the user can authenticate
         .send()
         .await
         .map_err(|_| Status::BadGateway)?
