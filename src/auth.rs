@@ -1,5 +1,5 @@
 use chrono::Utc;
-use jsonwebtoken::{decode, errors::{Error, ErrorKind}, Algorithm, DecodingKey, TokenData, Validation};
+use jsonwebtoken::{decode, errors::Error, Algorithm, DecodingKey, TokenData, Validation};
 use serde::Deserialize;
 use std::env;
 
@@ -27,14 +27,16 @@ struct JwtConfig {
     audience: String,
 }
 
-/// Fetch the secret key from environment variables
 fn get_secret_key() -> Result<String, Error> {
-    env::var("JWT_SECRET_KEY").map_err(|_| Error::to_owned)
+    env::var("JWT_SECRET_KEY").map_err(|_| Error::from(std::io::Error::new(
+        std::io::ErrorKind::NotFound,
+        "JWT_SECRET_KEY environment variable is not set.",
+    )))
 }
 
 pub fn validate_jwt(token: &str) -> Result<String, Error> {
     let secret = get_secret_key()?;
-    
+
     let token_data: TokenData<JwtConfig> = decode::<JwtConfig>(
         token,
         &DecodingKey::from_secret(secret.as_bytes()),
@@ -43,7 +45,10 @@ pub fn validate_jwt(token: &str) -> Result<String, Error> {
 
     let current_timestamp = Utc::now().timestamp() as usize;
     if token_data.claims.exp < current_timestamp {
-        return Err(Error::to_owned);
+        return Err(Error::from(std::io::Error::new(
+            std::io::ErrorKind::InvalidData,
+            "JWT token has expired.",
+        )));
     }
 
     Ok(token_data.claims.sub)
