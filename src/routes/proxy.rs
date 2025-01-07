@@ -46,7 +46,7 @@ pub async fn authorize_user(service_name: String, data: Json<SimpleJson>) -> Res
         _ => return Err(Status::NotFound),
     };
 
-    print!(url.stringify());
+    print!(url.to_string());
     let client = Client::new();
     let response = client
         .post(url)
