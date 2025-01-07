@@ -28,10 +28,7 @@ struct JwtConfig {
 }
 
 fn get_secret_key() -> Result<String, Error> {
-    env::var("JWT_SECRET_KEY").map_err(|_| Error::from(std::io::Error::new(
-        std::io::ErrorKind::NotFound,
-        "JWT_SECRET_KEY environment variable is not set.",
-    )))
+    env::var("JWT_SECRET_KEY").map_err(|_| Error::clone(&self))
 }
 
 pub fn validate_jwt(token: &str) -> Result<String, Error> {
@@ -45,10 +42,7 @@ pub fn validate_jwt(token: &str) -> Result<String, Error> {
 
     let current_timestamp = Utc::now().timestamp() as usize;
     if token_data.claims.exp < current_timestamp {
-        return Err(Error::from(std::io::Error::new(
-            std::io::ErrorKind::InvalidData,
-            "JWT token has expired.",
-        )));
+        return Err(Error::clone(&self));
     }
 
     Ok(token_data.claims.sub)
