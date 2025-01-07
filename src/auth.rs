@@ -1,5 +1,5 @@
 use chrono::Utc;
-use jsonwebtoken::{decode, errors::Error, Algorithm, DecodingKey, TokenData, Validation};
+use jsonwebtoken::{decode, errors::{Error, ErrorKind}, Algorithm, DecodingKey, TokenData, Validation};
 use serde::Deserialize;
 use std::env;
 
