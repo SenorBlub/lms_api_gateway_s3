@@ -28,7 +28,7 @@ struct JwtConfig {
 }
 
 fn get_secret_key() -> Result<String, Error> {
-    env::var("JWT_SECRET_KEY").map_err(|_| Error(ErrorKind::InvalidToken))
+    env::var("JWT_SECRET_KEY").map_err(|_| ErrorKind::InvalidToken.into())
 }
 
 pub fn validate_jwt(token: &str) -> Result<String, Error> {
@@ -42,7 +42,7 @@ pub fn validate_jwt(token: &str) -> Result<String, Error> {
 
     let current_timestamp = Utc::now().timestamp() as usize;
     if token_data.claims.exp < current_timestamp {
-        return Err(Error(ErrorKind::ExpiredSignature));
+        return Err(ErrorKind::ExpiredSignature.into());
     }
 
     Ok(token_data.claims.sub)
