@@ -39,8 +39,6 @@ pub fn get_var_value(key: String) -> String {
     }
 }
 
-use std::{default, env, result};
-
 pub fn get_service_config() -> ServiceConfig {
     let auth_ip = get_var_value("AUTH_IP".to_string());
     let auth_port = get_var_value("AUTH_PORT".to_string());
