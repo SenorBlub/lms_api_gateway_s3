@@ -1,5 +1,46 @@
 use std::{default, env, result};
 
+use rocket::futures::future::ok;
+
+pub struct ServiceConfig {
+    pub auth: String,
+    pub activity: String,
+    pub ai: String,
+    pub content: String,
+    pub logging: String,
+    pub live_chat: String,
+    pub notification: String,
+    pub plan: String,
+    pub user: String,
+    auth_ip: String,
+    auth_port: String,
+    activity_ip: String,
+    activity_port: String,
+    ai_ip: String,
+    ai_port: String,
+    content_ip: String,
+    content_port: String,
+    logging_ip: String,
+    logging_port: String,
+    live_chat_ip: String,
+    live_chat_port: String,
+    notification_ip: String,
+    notification_port: String,
+    plan_ip: String,
+    plan_port: String,
+    user_ip: String,
+    user_port: String,
+}
+
+pub fn get_var_value(key: String) -> String {
+    match env::var(key){
+        Ok(val) => return val,
+        Err(e) => unimplemented!("{}", e)
+    }
+}
+
+use std::{default, env, result};
+
 pub fn get_service_config() -> ServiceConfig {
     let auth_ip = get_var_value("AUTH_IP".to_string());
     let auth_port = get_var_value("AUTH_PORT".to_string());
@@ -50,3 +91,4 @@ pub fn get_service_config() -> ServiceConfig {
         user: format!("{}:{}/user", user_ip, user_port),
     }
 }
+
