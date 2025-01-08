@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 use rocket::http::Status;
 use rocket::request::{Request, FromRequest, Outcome};
-use rocket::serde::json::Json;
+use rocket::serde::json::{Json, Value};
 use reqwest::Client;
 use serde::de::value;
 use crate::auth::validate_jwt;
@@ -15,7 +15,7 @@ pub struct AuthenticatedUser {
 
 #[derive(Deserialize)]
 pub struct SimpleJson {
-    key: value,
+    key: Value,
 }
 
 #[rocket::async_trait]
