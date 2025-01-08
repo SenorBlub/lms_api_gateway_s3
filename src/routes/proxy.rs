@@ -3,6 +3,7 @@ use rocket::http::Status;
 use rocket::request::{Request, FromRequest, Outcome};
 use rocket::serde::json::Json;
 use reqwest::Client;
+use serde::de::value;
 use crate::auth::validate_jwt;
 use crate::services::{get_service_config, ServiceConfig};
 use serde::Deserialize;    
@@ -14,7 +15,7 @@ pub struct AuthenticatedUser {
 
 #[derive(Deserialize)]
 pub struct SimpleJson {
-    key: String,
+    key: value,
 }
 
 #[rocket::async_trait]
