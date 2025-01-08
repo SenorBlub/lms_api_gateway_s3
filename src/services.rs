@@ -78,15 +78,15 @@ pub fn get_service_config() -> ServiceConfig {
         plan_port: plan_port.clone(),
         user_ip: user_ip.clone(),
         user_port: user_port.clone(),
-        auth: format!("{}:{}/auth", auth_ip, auth_port),
-        activity: format!("{}:{}/activity", activity_ip, activity_port),
+        auth: format!("{}:{}/auth/Auth", auth_ip, auth_port),
+        activity: format!("{}:{}/activity/Activity", activity_ip, activity_port),
         ai: format!("{}:{}/ai", ai_ip, ai_port),
-        content: format!("{}:{}/content", content_ip, content_port),
+        content: format!("{}:{}/content/Content", content_ip, content_port),
         logging: format!("{}:{}/logging", logging_ip, logging_port),
         live_chat: format!("{}:{}/liveChat", live_chat_ip, live_chat_port),
-        notification: format!("{}:{}/notification", notification_ip, notification_port),
-        plan: format!("{}:{}/plan", plan_ip, plan_port),
-        user: format!("{}:{}/user", user_ip, user_port),
+        notification: format!("{}:{}/notification/Notification", notification_ip, notification_port),
+        plan: format!("{}:{}/plan/Plan", plan_ip, plan_port),
+        user: format!("{}:{}/user/User", user_ip, user_port),
     }
 }
 
