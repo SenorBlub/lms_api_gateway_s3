@@ -51,6 +51,8 @@ pub async fn authorize_user(service_name: String, data: Json<SimpleJson>) -> Res
     let client = Client::new();
     let response = client
         .post(url)
+        .header("Content-Type", "application/json")
+        .header("Accept", "application/json")
         .json(&data.key) // make this the data for the auth service so the user can authenticate
         .send()
         .await
@@ -74,6 +76,8 @@ pub async fn create_register_user(service_name: String, data: Json<SimpleJson>) 
     let client = Client::new();
     let response = client
         .post(url)
+        .header("Content-Type", "application/json")
+        .header("Accept", "application/json")
         .json(&data.key) // make this the data for the auth service so the user can authenticate
         .send()
         .await
@@ -97,6 +101,8 @@ pub async fn login_user(service_name: String, data: Json<SimpleJson>) -> Result<
     let client = Client::new();
     let response = client
         .post(url)
+        .header("Content-Type", "application/json")
+        .header("Accept", "application/json")
         .json(&data.key) // make this the data for the auth service so the user can authenticate
         .send()
         .await
@@ -191,6 +197,8 @@ pub async fn handle_post(service_name: String,
     let client = Client::new();
     let response = client
         .post(&url)
+        .header("Content-Type", "application/json")
+        .header("Accept", "application/json")
         .json(&data.key) // instead of key, make this actual request data
         .send()
         .await
@@ -238,6 +246,8 @@ pub async fn handle_put(service_name: String, path: PathBuf, _user: Authenticate
     let client = Client::new();
     let response = client
         .put(&url)
+        .header("Content-Type", "application/json")
+        .header("Accept", "application/json")
         .json(&data.key)  // instead of key, make this actual request data
         .send()
         .await
