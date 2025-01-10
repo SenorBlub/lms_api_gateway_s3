@@ -89,8 +89,9 @@ pub async fn create_register_user(service_name: String, data: Json<SimpleJson>) 
 pub async fn handle_get(service_name: String, path: PathBuf, _user: AuthenticatedUser) -> Result<String, Status> {
     let path_str = path.to_str().ok_or(Status::BadRequest)?;
     let config = get_service_config();
+    let url;
     if(path_str.len()>0){
-        let url = match service_name.as_str() {
+        url = match service_name.as_str() {
             "auth" => format!("{}/{}", config.auth, path_str),
             "activity" => format!("{}/{}", config.activity, path_str),
             "ai" => format!("{}/{}", config.ai, path_str),
@@ -103,7 +104,7 @@ pub async fn handle_get(service_name: String, path: PathBuf, _user: Authenticate
             _ => return Err(Status::NotFound),
         };
     }else{
-        let url = match service_name.as_str() {
+        url = match service_name.as_str() {
             "auth" => format!("{}", config.auth),
             "activity" => format!("{}", config.activity),
             "ai" => format!("{}", config.ai),
@@ -135,8 +136,9 @@ pub async fn handle_post(service_name: String,
 ) -> Result<String, Status> {
     let path_str = path.to_str().ok_or(Status::BadRequest)?;
     let config = get_service_config();
+    let url;
     if(path_str.len()>0){
-        let url = match service_name.as_str() {
+        url = match service_name.as_str() {
             "auth" => format!("{}/{}", config.auth, path_str),
             "activity" => format!("{}/{}", config.activity, path_str),
             "ai" => format!("{}/{}", config.ai, path_str),
@@ -149,7 +151,7 @@ pub async fn handle_post(service_name: String,
             _ => return Err(Status::NotFound),
         };
     }else{
-        let url = match service_name.as_str() {
+        url = match service_name.as_str() {
             "auth" => format!("{}", config.auth),
             "activity" => format!("{}", config.activity),
             "ai" => format!("{}", config.ai),
@@ -181,8 +183,9 @@ pub async fn handle_post(service_name: String,
 pub async fn handle_put(service_name: String, path: PathBuf, _user: AuthenticatedUser, data: Json<SimpleJson>) -> Result<String, Status> {
     let path_str = path.to_str().ok_or(Status::BadRequest)?;
     let config = get_service_config();
+    let url;
     if(path_str.len()>0){
-        let url = match service_name.as_str() {
+        url = match service_name.as_str() {
             "auth" => format!("{}/{}", config.auth, path_str),
             "activity" => format!("{}/{}", config.activity, path_str),
             "ai" => format!("{}/{}", config.ai, path_str),
@@ -195,7 +198,7 @@ pub async fn handle_put(service_name: String, path: PathBuf, _user: Authenticate
             _ => return Err(Status::NotFound),
         };
     }else{
-        let url = match service_name.as_str() {
+        url = match service_name.as_str() {
             "auth" => format!("{}", config.auth),
             "activity" => format!("{}", config.activity),
             "ai" => format!("{}", config.ai),
@@ -227,8 +230,9 @@ pub async fn handle_put(service_name: String, path: PathBuf, _user: Authenticate
 pub async fn handle_delete(service_name: String, path: PathBuf, _user: AuthenticatedUser) -> Result<String, Status> {
     let path_str = path.to_str().ok_or(Status::BadRequest)?;
     let config = get_service_config();
+    let url;
     if(path_str.len()>0){
-        let url = match service_name.as_str() {
+        url = match service_name.as_str() {
             "auth" => format!("{}/{}", config.auth, path_str),
             "activity" => format!("{}/{}", config.activity, path_str),
             "ai" => format!("{}/{}", config.ai, path_str),
@@ -241,7 +245,7 @@ pub async fn handle_delete(service_name: String, path: PathBuf, _user: Authentic
             _ => return Err(Status::NotFound),
         };
     }else{
-        let url = match service_name.as_str() {
+        url = match service_name.as_str() {
             "auth" => format!("{}", config.auth),
             "activity" => format!("{}", config.activity),
             "ai" => format!("{}", config.ai),
