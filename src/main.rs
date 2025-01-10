@@ -19,7 +19,8 @@ fn rocket() -> _ {
                 routes::proxy::handle_delete, 
                 routes::proxy::handle_put, 
                 routes::proxy::authorize_user,
-                routes::proxy::create_register_user
+                routes::proxy::create_register_user,
+                routes::proxy::login_user
             ]
         )
 }
