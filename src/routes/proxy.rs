@@ -102,6 +102,19 @@ pub async fn handle_get(service_name: String, path: PathBuf, _user: Authenticate
             "user" => format!("{}/{}", config.user, path_str),
             _ => return Err(Status::NotFound),
         };
+    }else{
+        let url = match service_name.as_str() {
+            "auth" => format!("{}", config.auth),
+            "activity" => format!("{}", config.activity),
+            "ai" => format!("{}", config.ai),
+            "content" => format!("{}", config.content),
+            "logging" => format!("{}", config.logging),
+            "live_chat" => format!("{}", config.live_chat),
+            "notification" => format!("{}", config.notification),  
+            "plan" => format!("{}", config.plan),
+            "user" => format!("{}", config.user),
+            _ => return Err(Status::NotFound),
+        };
     }
 
     let client = Client::new();
@@ -135,7 +148,21 @@ pub async fn handle_post(service_name: String,
             "user" => format!("{}/{}", config.user, path_str),
             _ => return Err(Status::NotFound),
         };
+    }else{
+        let url = match service_name.as_str() {
+            "auth" => format!("{}", config.auth),
+            "activity" => format!("{}", config.activity),
+            "ai" => format!("{}", config.ai),
+            "content" => format!("{}", config.content),
+            "logging" => format!("{}", config.logging),
+            "live_chat" => format!("{}", config.live_chat),
+            "notification" => format!("{}", config.notification),  
+            "plan" => format!("{}", config.plan),
+            "user" => format!("{}", config.user),
+            _ => return Err(Status::NotFound),
+        };
     }
+
     let client = Client::new();
     let response = client
         .post(&url)
@@ -167,7 +194,21 @@ pub async fn handle_put(service_name: String, path: PathBuf, _user: Authenticate
             "user" => format!("{}/{}", config.user, path_str),
             _ => return Err(Status::NotFound),
         };
+    }else{
+        let url = match service_name.as_str() {
+            "auth" => format!("{}", config.auth),
+            "activity" => format!("{}", config.activity),
+            "ai" => format!("{}", config.ai),
+            "content" => format!("{}", config.content),
+            "logging" => format!("{}", config.logging),
+            "live_chat" => format!("{}", config.live_chat),
+            "notification" => format!("{}", config.notification),  
+            "plan" => format!("{}", config.plan),
+            "user" => format!("{}", config.user),
+            _ => return Err(Status::NotFound),
+        };
     }
+
     let client = Client::new();
     let response = client
         .put(&url)
@@ -199,7 +240,21 @@ pub async fn handle_delete(service_name: String, path: PathBuf, _user: Authentic
             "user" => format!("{}/{}", config.user, path_str),
             _ => return Err(Status::NotFound),
         };
+    }else{
+        let url = match service_name.as_str() {
+            "auth" => format!("{}", config.auth),
+            "activity" => format!("{}", config.activity),
+            "ai" => format!("{}", config.ai),
+            "content" => format!("{}", config.content),
+            "logging" => format!("{}", config.logging),
+            "live_chat" => format!("{}", config.live_chat),
+            "notification" => format!("{}", config.notification),  
+            "plan" => format!("{}", config.plan),
+            "user" => format!("{}", config.user),
+            _ => return Err(Status::NotFound),
+        };
     }
+    
     let client = Client::new();
     let response = client
         .delete(&url)
