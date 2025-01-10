@@ -89,18 +89,20 @@ pub async fn create_register_user(service_name: String, data: Json<SimpleJson>) 
 pub async fn handle_get(service_name: String, path: PathBuf, _user: AuthenticatedUser) -> Result<String, Status> {
     let path_str = path.to_str().ok_or(Status::BadRequest)?;
     let config = get_service_config();
-    let url = match service_name.as_str() {
-        "auth" => format!("{}/{}", config.auth, path_str),
-        "activity" => format!("{}/{}", config.activity, path_str),
-        "ai" => format!("{}/{}", config.ai, path_str),
-        "content" => format!("{}/{}", config.content, path_str),
-        "logging" => format!("{}/{}", config.logging, path_str),
-        "live_chat" => format!("{}/{}", config.live_chat, path_str),
-        "notification" => format!("{}/{}", config.notification, path_str),  
-        "plan" => format!("{}/{}", config.plan, path_str),
-        "user" => format!("{}/{}", config.user, path_str),
-        _ => return Err(Status::NotFound),
-    };
+    if(path_str){
+        let url = match service_name.as_str() {
+            "auth" => format!("{}/{}", config.auth, path_str),
+            "activity" => format!("{}/{}", config.activity, path_str),
+            "ai" => format!("{}/{}", config.ai, path_str),
+            "content" => format!("{}/{}", config.content, path_str),
+            "logging" => format!("{}/{}", config.logging, path_str),
+            "live_chat" => format!("{}/{}", config.live_chat, path_str),
+            "notification" => format!("{}/{}", config.notification, path_str),  
+            "plan" => format!("{}/{}", config.plan, path_str),
+            "user" => format!("{}/{}", config.user, path_str),
+            _ => return Err(Status::NotFound),
+        };
+    }
 
     let client = Client::new();
     let response = client.get(&url)
@@ -120,19 +122,20 @@ pub async fn handle_post(service_name: String,
 ) -> Result<String, Status> {
     let path_str = path.to_str().ok_or(Status::BadRequest)?;
     let config = get_service_config();
-    let url = match service_name.as_str() {
-        "auth" => format!("{}/{}", config.auth, path_str),
-        "activity" => format!("{}/{}", config.activity, path_str),
-        "ai" => format!("{}/{}", config.ai, path_str),
-        "content" => format!("{}/{}", config.content, path_str),
-        "logging" => format!("{}/{}", config.logging, path_str),
-        "live_chat" => format!("{}/{}", config.live_chat, path_str),
-        "notification" => format!("{}/{}", config.notification, path_str),  
-        "plan" => format!("{}/{}", config.plan, path_str),
-        "user" => format!("{}/{}", config.user, path_str),
-        _ => return Err(Status::NotFound),
-    };
-
+    if(path_str){
+        let url = match service_name.as_str() {
+            "auth" => format!("{}/{}", config.auth, path_str),
+            "activity" => format!("{}/{}", config.activity, path_str),
+            "ai" => format!("{}/{}", config.ai, path_str),
+            "content" => format!("{}/{}", config.content, path_str),
+            "logging" => format!("{}/{}", config.logging, path_str),
+            "live_chat" => format!("{}/{}", config.live_chat, path_str),
+            "notification" => format!("{}/{}", config.notification, path_str),  
+            "plan" => format!("{}/{}", config.plan, path_str),
+            "user" => format!("{}/{}", config.user, path_str),
+            _ => return Err(Status::NotFound),
+        };
+    }
     let client = Client::new();
     let response = client
         .post(&url)
@@ -151,19 +154,20 @@ pub async fn handle_post(service_name: String,
 pub async fn handle_put(service_name: String, path: PathBuf, _user: AuthenticatedUser, data: Json<SimpleJson>) -> Result<String, Status> {
     let path_str = path.to_str().ok_or(Status::BadRequest)?;
     let config = get_service_config();
-    let url = match service_name.as_str() {
-        "auth" => format!("{}/{}", config.auth, path_str),
-        "activity" => format!("{}/{}", config.activity, path_str),
-        "ai" => format!("{}/{}", config.ai, path_str),
-        "content" => format!("{}/{}", config.content, path_str),
-        "logging" => format!("{}/{}", config.logging, path_str),
-        "live_chat" => format!("{}/{}", config.live_chat, path_str),
-        "notification" => format!("{}/{}", config.notification, path_str),  
-        "plan" => format!("{}/{}", config.plan, path_str),
-        "user" => format!("{}/{}", config.user, path_str),
-        _ => return Err(Status::NotFound),
-    };
-
+    if(path_str){
+        let url = match service_name.as_str() {
+            "auth" => format!("{}/{}", config.auth, path_str),
+            "activity" => format!("{}/{}", config.activity, path_str),
+            "ai" => format!("{}/{}", config.ai, path_str),
+            "content" => format!("{}/{}", config.content, path_str),
+            "logging" => format!("{}/{}", config.logging, path_str),
+            "live_chat" => format!("{}/{}", config.live_chat, path_str),
+            "notification" => format!("{}/{}", config.notification, path_str),  
+            "plan" => format!("{}/{}", config.plan, path_str),
+            "user" => format!("{}/{}", config.user, path_str),
+            _ => return Err(Status::NotFound),
+        };
+    }
     let client = Client::new();
     let response = client
         .put(&url)
@@ -182,19 +186,20 @@ pub async fn handle_put(service_name: String, path: PathBuf, _user: Authenticate
 pub async fn handle_delete(service_name: String, path: PathBuf, _user: AuthenticatedUser) -> Result<String, Status> {
     let path_str = path.to_str().ok_or(Status::BadRequest)?;
     let config = get_service_config();
-    let url = match service_name.as_str() {
-        "auth" => format!("{}/{}", config.auth, path_str),
-        "activity" => format!("{}/{}", config.activity, path_str),
-        "ai" => format!("{}/{}", config.ai, path_str),
-        "content" => format!("{}/{}", config.content, path_str),
-        "logging" => format!("{}/{}", config.logging, path_str),
-        "live_chat" => format!("{}/{}", config.live_chat, path_str),
-        "notification" => format!("{}/{}", config.notification, path_str),  
-        "plan" => format!("{}/{}", config.plan, path_str),
-        "user" => format!("{}/{}", config.user, path_str),
-        _ => return Err(Status::NotFound),
-    };
-
+    if(path_str){
+        let url = match service_name.as_str() {
+            "auth" => format!("{}/{}", config.auth, path_str),
+            "activity" => format!("{}/{}", config.activity, path_str),
+            "ai" => format!("{}/{}", config.ai, path_str),
+            "content" => format!("{}/{}", config.content, path_str),
+            "logging" => format!("{}/{}", config.logging, path_str),
+            "live_chat" => format!("{}/{}", config.live_chat, path_str),
+            "notification" => format!("{}/{}", config.notification, path_str),  
+            "plan" => format!("{}/{}", config.plan, path_str),
+            "user" => format!("{}/{}", config.user, path_str),
+            _ => return Err(Status::NotFound),
+        };
+    }
     let client = Client::new();
     let response = client
         .delete(&url)
