@@ -93,7 +93,7 @@ pub async fn create_register_user(service_name: String, data: Json<SimpleJson>) 
 pub async fn login_user(service_name: String, data: Json<SimpleJson>) -> Result<String, Status> {
     let config: ServiceConfig = get_service_config();
     let url = match service_name.as_str() {
-        "user" => format!("{}/login", config.auth),
+        "user" => format!("{}/login", config.user),
         _ => return Err(Status::NotFound),
     };
 
