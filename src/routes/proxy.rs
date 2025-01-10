@@ -62,6 +62,29 @@ pub async fn authorize_user(service_name: String, data: Json<SimpleJson>) -> Res
     Ok(response)
 }
 
+#[post("/<service_name>/register", format = "application/json", data = "<data>")]
+pub async fn authorize_user(service_name: String, data: Json<SimpleJson>) -> Result<String, Status> {
+    let config: ServiceConfig = get_service_config();
+    let url = match service_name.as_str() {
+        "auth" => format!("{}/register", config.auth),
+        _ => return Err(Status::NotFound),
+    };
+
+    print!("{}", url.as_str());
+    let client = Client::new();
+    let response = client
+        .post(url)
+        .json(&data.key) // make this the data for the auth service so the user can authenticate
+        .send()
+        .await
+        .map_err(|_| Status::BadGateway)?
+        .text()
+        .await
+        .map_err(|_| Status::InternalServerError)?;
+
+    Ok(response)
+}
+
 #[get("/<service_name>/<path..>")]
 pub async fn handle_get(service_name: String, path: PathBuf, _user: AuthenticatedUser) -> Result<String, Status> {
     let path_str = path.to_str().ok_or(Status::BadRequest)?;
