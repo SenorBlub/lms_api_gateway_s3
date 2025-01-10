@@ -63,7 +63,7 @@ pub async fn authorize_user(service_name: String, data: Json<SimpleJson>) -> Res
 }
 
 #[post("/<service_name>/register", format = "application/json", data = "<data>")]
-pub async fn authorize_user(service_name: String, data: Json<SimpleJson>) -> Result<String, Status> {
+pub async fn register_user(service_name: String, data: Json<SimpleJson>) -> Result<String, Status> {
     let config: ServiceConfig = get_service_config();
     let url = match service_name.as_str() {
         "auth" => format!("{}/register", config.auth),
