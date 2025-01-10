@@ -13,8 +13,6 @@ struct JwtConfig {
     sub: String,
     #[serde(rename = "jti")]
     jti: String,
-    #[serde(rename = "name")]
-    name: String,
     #[serde(rename = "iat")]
     iat: usize,
     #[serde(rename = "exp")]
