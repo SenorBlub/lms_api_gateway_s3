@@ -1,3 +1,4 @@
+use std::arch::x86_64::_CMP_GT_OS;
 use std::path::PathBuf;
 use rocket::http::Status;
 use rocket::request::{Request, FromRequest, Outcome};
@@ -29,7 +30,7 @@ impl<'r> FromRequest<'r> for AuthenticatedUser {
                 print!("{}", token);
                 match validate_jwt(token) {
                     Ok(sub) => Outcome::Success(AuthenticatedUser { sub }),
-                    Err(_) => {println!("JWT validation error: {:?}", e);
+                    Err(_) => {println!("JWT validation error: {:?}");
                      Outcome::Error((Status::Unauthorized, ()))},
                 }
             } else {
