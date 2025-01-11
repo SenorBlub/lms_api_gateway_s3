@@ -29,12 +29,15 @@ impl<'r> FromRequest<'r> for AuthenticatedUser {
                 print!("{}", token);
                 match validate_jwt(token) {
                     Ok(sub) => Outcome::Success(AuthenticatedUser { sub }),
-                    Err(_) => Outcome::Error((Status::Unauthorized, ())),
+                    Err(_) => {println!("JWT validation error: {:?}", e);
+                     Outcome::Error((Status::Unauthorized, ()))},
                 }
             } else {
+                println!("Invalid Authorization header format.");
                 Outcome::Error((Status::Unauthorized, ()))
             }
         } else {
+            println!("Missing Authorization header.");
             Outcome::Error((Status::Unauthorized, ()))
         }
     }
