@@ -48,7 +48,7 @@ pub fn validate_jwt(token: &str) -> Result<String, Error> {
 
     
 
-    let current_timestamp = Utc::now().timestamp() as string;
+    let current_timestamp = Utc::now().timestamp();
     if token_data.claims.exp < current_timestamp.to_string() {
         return Err(ErrorKind::ExpiredSignature.into());
     }else if token_data.claims.nbf > current_timestamp.to_string() {
