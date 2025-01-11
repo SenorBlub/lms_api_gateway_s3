@@ -1,9 +1,9 @@
 use chrono::Utc;
 use jsonwebtoken::{decode, errors::{Error, ErrorKind}, Algorithm, DecodingKey, TokenData, Validation};
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use std::env;
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 struct JwtConfig {
     #[serde(rename = "alg")]
     alg: String,
@@ -22,9 +22,9 @@ struct JwtConfig {
     #[serde(rename = "secret")]
     secret: String,
     #[serde(rename = "iss")]
-    issuer: String,
+    iss: String,
     #[serde(rename = "aud")]
-    audience: String,
+    aud: String,
 }
 
 fn get_secret_key() -> Result<String, Error> {
@@ -33,15 +33,16 @@ fn get_secret_key() -> Result<String, Error> {
 
 pub fn validate_jwt(token: &str) -> Result<String, Error> {
     let secret = get_secret_key()?;
+    let secret_bytes = secret.as_bytes();
     println!("{}", secret.to_string());
 
     let decodable_token = token.to_string();
 
-print!("{}", decodable_token);
+    print!("{}", decodable_token);
 
     let token_data: TokenData<JwtConfig> = decode::<JwtConfig>(
         &decodable_token,
-        &DecodingKey::from_secret(secret.as_ref()),
+        &DecodingKey::from_secret(secret_bytes),
         &Validation::new(Algorithm::HS256),
     )?;
 
