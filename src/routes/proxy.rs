@@ -24,9 +24,9 @@ impl<'r> FromRequest<'r> for AuthenticatedUser {
 
     async fn from_request(request: &'r Request<'_>) -> Outcome<Self, Self::Error> {
         if let Some(auth_header) = request.headers().get_one("Authorization") {
-            print!("{}", auth_header.as_str());
+            print!("{}", auth_header);
             if let Some(token) = auth_header.strip_prefix("Bearer ") {
-                print!("{}", token.as_str());
+                print!("{}", token);
                 match validate_jwt(token) {
                     Ok(sub) => Outcome::Success(AuthenticatedUser { sub }),
                     Err(_) => Outcome::Error((Status::Unauthorized, ())),
