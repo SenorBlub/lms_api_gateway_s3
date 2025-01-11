@@ -41,7 +41,7 @@ pub fn validate_jwt(token: &str) -> Result<String, Error> {
         &Validation::new(Algorithm::HS256),
     )?;
 
-    print!("{}", token_data);
+    print!("{}", token.to_string());
 
     let current_timestamp = Utc::now().timestamp() as usize;
     if token_data.claims.exp < current_timestamp {
