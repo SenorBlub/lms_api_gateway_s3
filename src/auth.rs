@@ -46,14 +46,15 @@ pub fn validate_jwt(token: &str) -> Result<String, Error> {
         &Validation::new(Algorithm::HS256),
     )?;
 
-    
+    print!("made it to ln49!");
 
     let current_timestamp = Utc::now().timestamp();
+    print!("made it to ln52!");
     if token_data.claims.exp < current_timestamp.to_string() {
         return Err(ErrorKind::ExpiredSignature.into());
     }else if token_data.claims.nbf > current_timestamp.to_string() {
         return Err(ErrorKind::ImmatureSignature.into());
     }
-
+    print!("made it to ln58!");
     Ok(token_data.claims.sub)
 }
