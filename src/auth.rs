@@ -14,13 +14,11 @@ struct JwtConfig {
     #[serde(rename = "jti")]
     jti: String,
     #[serde(rename = "iat")]
-    iat: String,
+    iat: i64, 
     #[serde(rename = "nbf")]
-    nbf: String,
+    nbf: i64, 
     #[serde(rename = "exp")]
-    exp: String,
-    #[serde(rename = "secret")]
-    secret: String,
+    exp: i64, 
     #[serde(rename = "iss")]
     iss: String,
     #[serde(rename = "aud")]
@@ -34,27 +32,31 @@ fn get_secret_key() -> Result<String, Error> {
 pub fn validate_jwt(token: &str) -> Result<String, Error> {
     let secret = get_secret_key()?;
     let secret_bytes = secret.as_bytes();
-    println!("{}", secret.to_string());
+    println!("Secret Key: {}", secret);
 
     let decodable_token = token.to_string();
+    println!("Token: {}", decodable_token);
 
-    print!("{}", decodable_token);
-
-    let token_data = decode::<JwtConfig>(
+    let token_data: TokenData<JwtConfig> = decode::<JwtConfig>(
         &decodable_token,
         &DecodingKey::from_secret(secret_bytes),
-        &Validation::new(Algorithm::HS256)
-    );
+        &Validation::new(Algorithm::HS256),
+    ).map_err(|err| {
+        println!("JWT Decode Error: {:?}", err);
+        err
+    })?;
 
-    print!("made it to ln49!");
+    println!("Decoded Token: {:?}", token_data);
 
     let current_timestamp = Utc::now().timestamp();
-    print!("made it to ln52!");
-    if token_data.claims.exp < current_timestamp.to_string() {
+    if token_data.claims.exp < current_timestamp {
+        println!("Token has expired.");
         return Err(ErrorKind::ExpiredSignature.into());
-    }else if token_data.claims.nbf > current_timestamp.to_string() {
+    } else if token_data.claims.nbf > current_timestamp {
+        println!("Token is not yet valid.");
         return Err(ErrorKind::ImmatureSignature.into());
     }
-    print!("made it to ln58!");
+
+    println!("Token is valid.");
     Ok(token_data.claims.sub)
 }
