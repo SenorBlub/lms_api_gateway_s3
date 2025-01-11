@@ -15,6 +15,8 @@ struct JwtConfig {
     jti: String,
     #[serde(rename = "iat")]
     iat: usize,
+    #[serde(rename = "nbf")]
+    nbf: usize,
     #[serde(rename = "exp")]
     exp: usize,
     #[serde(rename = "secret")]
@@ -41,6 +43,8 @@ pub fn validate_jwt(token: &str) -> Result<String, Error> {
     let current_timestamp = Utc::now().timestamp() as usize;
     if token_data.claims.exp < current_timestamp {
         return Err(ErrorKind::ExpiredSignature.into());
+    }else if token_data.claims.nbf > current_timestamp {
+        return Err(ErrorKind::ImmatureSignature.into());
     }
 
     Ok(token_data.claims.sub)
