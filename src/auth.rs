@@ -43,8 +43,8 @@ pub fn validate_jwt(token: &str) -> Result<String, Error> {
     let token_data = decode::<JwtConfig>(
         &decodable_token,
         &DecodingKey::from_secret(secret_bytes),
-        &Validation::new(Algorithm::HS256),
-    )?;
+        &Validation::new(Algorithm::HS256)
+    );
 
     print!("made it to ln49!");
 
