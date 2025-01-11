@@ -35,9 +35,11 @@ pub fn validate_jwt(token: &str) -> Result<String, Error> {
     let secret = get_secret_key()?;
     println!("{}", secret.to_string());
 
+    let decodable_token = token.to_string();
+
     let token_data: TokenData<JwtConfig> = decode::<JwtConfig>(
-        token,
-        &DecodingKey::from_secret(secret.as_bytes()),
+        &decodable_token,
+        &DecodingKey::from_secret(secret.as_ref()),
         &Validation::new(Algorithm::HS256),
     )?;
 
