@@ -33,7 +33,7 @@ fn get_secret_key() -> Result<String, Error> {
 
 pub fn validate_jwt(token: &str) -> Result<String, Error> {
     let secret = get_secret_key()?;
-    println!(secret.to_str());
+    println!("{}", secret.to_str());
 
     let token_data: TokenData<JwtConfig> = decode::<JwtConfig>(
         token,
