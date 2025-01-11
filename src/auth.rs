@@ -33,12 +33,15 @@ fn get_secret_key() -> Result<String, Error> {
 
 pub fn validate_jwt(token: &str) -> Result<String, Error> {
     let secret = get_secret_key()?;
+    println!(secret);
 
     let token_data: TokenData<JwtConfig> = decode::<JwtConfig>(
         token,
         &DecodingKey::from_secret(secret.as_bytes()),
         &Validation::new(Algorithm::HS256),
     )?;
+
+    print!("{}", token_data.t_str());
 
     let current_timestamp = Utc::now().timestamp() as usize;
     if token_data.claims.exp < current_timestamp {
