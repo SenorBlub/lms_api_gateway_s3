@@ -37,13 +37,15 @@ pub fn validate_jwt(token: &str) -> Result<String, Error> {
 
     let decodable_token = token.to_string();
 
+print!("{}", decodable_token);
+
     let token_data: TokenData<JwtConfig> = decode::<JwtConfig>(
         &decodable_token,
         &DecodingKey::from_secret(secret.as_ref()),
         &Validation::new(Algorithm::HS256),
     )?;
 
-    print!("{}", token.to_string());
+    
 
     let current_timestamp = Utc::now().timestamp() as usize;
     if token_data.claims.exp < current_timestamp {
