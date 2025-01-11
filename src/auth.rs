@@ -5,10 +5,6 @@ use std::env;
 
 #[derive(Debug, Serialize, Deserialize)]
 struct JwtConfig {
-    #[serde(rename = "alg")]
-    alg: String,
-    #[serde(rename = "typ")]
-    typ: String,
     #[serde(rename = "sub")]
     sub: String,
     #[serde(rename = "jti")]
