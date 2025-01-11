@@ -30,7 +30,7 @@ impl<'r> FromRequest<'r> for AuthenticatedUser {
                 print!("{}", token);
                 match validate_jwt(token) {
                     Ok(sub) => Outcome::Success(AuthenticatedUser { sub }),
-                    Err(_) => {println!("JWT validation error: {:?}");
+                    Err(_) => {println!("JWT validation error");
                      Outcome::Error((Status::Unauthorized, ()))},
                 }
             } else {
