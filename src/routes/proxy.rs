@@ -71,7 +71,7 @@ pub async fn authorize_user(service_name: String, data: Json<SimpleJson>) -> Res
 }
 
 #[post("/<service_name>/email-authorize", format = "application/json", data = "<data>")]
-pub async fn authorize_user(service_name: String, data: Json<SimpleJson>) -> Result<String, Status> {
+pub async fn email_authorize_user(service_name: String, data: Json<SimpleJson>) -> Result<String, Status> {
     let config: ServiceConfig = get_service_config();
     let url = match service_name.as_str() {
         "auth" => format!("{}/email-authorize", config.auth),
