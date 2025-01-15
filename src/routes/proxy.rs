@@ -70,6 +70,31 @@ pub async fn authorize_user(service_name: String, data: Json<SimpleJson>) -> Res
     Ok(response)
 }
 
+#[post("/<service_name>/email-authorize", format = "application/json", data = "<data>")]
+pub async fn authorize_user(service_name: String, data: Json<SimpleJson>) -> Result<String, Status> {
+    let config: ServiceConfig = get_service_config();
+    let url = match service_name.as_str() {
+        "auth" => format!("{}/email-authorize", config.auth),
+        _ => return Err(Status::NotFound),
+    };
+
+    print!("{}", url.as_str());
+    let client = Client::new();
+    let response = client
+        .post(url)
+        .header("Content-Type", "application/json")
+        .header("Accept", "application/json")
+        .json(&data.key) // make this the data for the auth service so the user can authenticate
+        .send()
+        .await
+        .map_err(|_| Status::BadGateway)?
+        .text()
+        .await
+        .map_err(|_| Status::InternalServerError)?;
+
+    Ok(response)
+}
+
 #[post("/<service_name>/register", format = "application/json", data = "<data>")]
 pub async fn create_register_user(service_name: String, data: Json<SimpleJson>) -> Result<String, Status> {
     let config: ServiceConfig = get_service_config();
