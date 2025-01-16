@@ -12,6 +12,7 @@ fn rocket() -> _ {
             port: 8080,
             ..rocket::Config::default()
         })
+        .attach(CORS)
         .mount("/", 
             routes![
                 routes::proxy::handle_get, 

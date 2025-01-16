@@ -8,6 +8,7 @@ use serde::de::value;
 use crate::auth::validate_jwt;
 use crate::services::{get_service_config, ServiceConfig};
 use serde::Deserialize;    
+use rocket::{fairing::{Fairing, Info, Kind}, Request, Response};
 
 #[derive(Debug)]
 pub struct AuthenticatedUser {
@@ -17,6 +18,24 @@ pub struct AuthenticatedUser {
 #[derive(Deserialize)]
 pub struct SimpleJson {
     key: Value,
+}
+
+pub struct CORS;
+
+#[rocket::async_trait]
+impl Fairing for CORS {
+    fn info(&self) -> Info {
+        Info {
+            name: "Add CORS headers",
+            kind: Kind::Response,
+        }
+    }
+
+    async fn on_response<'r>(&self, _request: &'r Request<'_>, response: &mut Response<'r>) {
+        response.set_header(rocket::http::Header::new("Access-Control-Allow-Origin", "*"));
+        response.set_header(rocket::http::Header::new("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE"));
+        response.set_header(rocket::http::Header::new("Access-Control-Allow-Headers", "Authorization, Content-Type"));
+    }
 }
 
 #[rocket::async_trait]
