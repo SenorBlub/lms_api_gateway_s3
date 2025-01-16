@@ -13,12 +13,20 @@ impl Fairing for CORS {
         }
     }
 
-    async fn on_response<'r>(&self, _: &'r Request<'_>, res: &mut Response<'r>) {
-        res.set_header(rocket::http::Header::new("Access-Control-Allow-Origin", "*"));
-        res.set_header(rocket::http::Header::new("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS"));
-        res.set_header(rocket::http::Header::new("Access-Control-Allow-Headers", "Authorization, Content-Type"));
+    async fn on_response<'r>(&self, req: &'r Request<'_>, res: &mut Response<'r>) {
+        let allowed_origin = "http://192.168.178.128"; // Specify the allowed origin
+
+        if let Some(origin) = req.headers().get_one("Origin") {
+            if origin == allowed_origin {
+                res.set_header(rocket::http::Header::new("Access-Control-Allow-Origin", allowed_origin));
+                res.set_header(rocket::http::Header::new("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS"));
+                res.set_header(rocket::http::Header::new("Access-Control-Allow-Headers", "Authorization, Content-Type"));
+                res.set_header(rocket::http::Header::new("Access-Control-Allow-Credentials", "true"));
+            }
+        }
     }
 }
+
 
 mod routes;
 mod auth;
