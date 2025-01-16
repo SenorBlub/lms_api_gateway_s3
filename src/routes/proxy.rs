@@ -8,6 +8,7 @@ use crate::services::{get_service_config, ServiceConfig};
 use serde::Deserialize;
 use rocket::fairing::{Fairing, Info, Kind};
 use rocket::Response;
+use rocket::{fairing::{Fairing, Info, Kind}, Request, Response};
 
 
 #[derive(Debug)]

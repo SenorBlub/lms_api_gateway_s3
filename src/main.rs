@@ -1,11 +1,11 @@
 #[macro_use] extern crate rocket;
+use rocket::{fairing::{Fairing, Info, Kind}, Request, Response};
+use routes::proxy::*;
+use crate::CORS;
 
 mod routes;
 mod auth;
 mod services;
-
-use routes::proxy::*;
-use crate::CORS;
 
 #[launch]
 fn rocket() -> _ {
