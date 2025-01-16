@@ -1,6 +1,8 @@
 #[macro_use] extern crate rocket;
 use rocket::fairing::{Fairing, Info, Kind};
 use rocket::{Request, Response};
+use rocket::http::Header;
+
 
 pub struct CORS;
 
