@@ -1,14 +1,14 @@
-use std::arch::x86_64::_CMP_GT_OS;
 use std::path::PathBuf;
 use rocket::http::Status;
-use rocket::request::{Request, FromRequest, Outcome};
+use rocket::request::{FromRequest, Outcome};
 use rocket::serde::json::{Json, Value};
 use reqwest::Client;
-use serde::de::value;
 use crate::auth::validate_jwt;
 use crate::services::{get_service_config, ServiceConfig};
-use serde::Deserialize;    
-use rocket::{fairing::{Fairing, Info, Kind}, Request, Response};
+use serde::Deserialize;
+use rocket::fairing::{Fairing, Info, Kind};
+use rocket::Response;
+
 
 #[derive(Debug)]
 pub struct AuthenticatedUser {
