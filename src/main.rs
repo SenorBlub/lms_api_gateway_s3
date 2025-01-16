@@ -1,4 +1,24 @@
 #[macro_use] extern crate rocket;
+use rocket::fairing::{Fairing, Info, Kind};
+use rocket::{Request, Response};
+
+pub struct CORS;
+
+#[rocket::async_trait]
+impl Fairing for CORS {
+    fn info(&self) -> Info {
+        Info {
+            name: "Add CORS headers",
+            kind: Kind::Response,
+        }
+    }
+
+    async fn on_response<'r>(&self, _: &'r Request<'_>, res: &mut Response<'r>) {
+        res.set_header(rocket::http::Header::new("Access-Control-Allow-Origin", "*"));
+        res.set_header(rocket::http::Header::new("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS"));
+        res.set_header(rocket::http::Header::new("Access-Control-Allow-Headers", "Authorization, Content-Type"));
+    }
+}
 
 mod routes;
 mod auth;
@@ -12,6 +32,7 @@ fn rocket() -> _ {
             port: 8080,
             ..rocket::Config::default()
         })
+        .attach(CORS)
         .mount("/", 
             routes![
                 routes::proxy::handle_get, 
