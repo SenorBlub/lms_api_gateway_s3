@@ -6,7 +6,6 @@ use reqwest::Client;
 use crate::auth::validate_jwt;
 use crate::services::{get_service_config, ServiceConfig};
 use serde::Deserialize;
-use rocket::Response;
 use rocket::{fairing::{Fairing, Info, Kind}, Request, Response};
 
 
