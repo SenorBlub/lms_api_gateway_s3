@@ -4,6 +4,9 @@ mod routes;
 mod auth;
 mod services;
 
+use routes::proxy::*;
+use crate::CORS;
+
 #[launch]
 fn rocket() -> _ {
     rocket::build()
