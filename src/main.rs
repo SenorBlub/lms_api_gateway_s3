@@ -14,17 +14,22 @@ impl Fairing for CORS {
     }
 
     async fn on_response<'r>(&self, req: &'r Request<'_>, res: &mut Response<'r>) {
-        let allowed_origin = "http://192.168.178.128"; // Specify the allowed origin
+        // Set the required CORS headers
+        res.set_header(Header::new("Access-Control-Allow-Origin", "*"));
+        res.set_header(Header::new("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS"));
+        res.set_header(Header::new("Access-Control-Allow-Headers", "Authorization, Content-Type"));
+        res.set_header(Header::new("Access-Control-Allow-Credentials", "true"));
 
-        if let Some(origin) = req.headers().get_one("Origin") {
-            if origin == allowed_origin {
-                res.set_header(rocket::http::Header::new("Access-Control-Allow-Origin", allowed_origin));
-                res.set_header(rocket::http::Header::new("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS"));
-                res.set_header(rocket::http::Header::new("Access-Control-Allow-Headers", "Authorization, Content-Type"));
-                res.set_header(rocket::http::Header::new("Access-Control-Allow-Credentials", "true"));
-            }
+        // Handle OPTIONS requests
+        if req.method() == rocket::http::Method::Options {
+            res.set_header(Header::new("Access-Control-Max-Age", "86400"));
         }
     }
+}
+
+#[rocket::options("/<path..>")]
+fn options_handler(path: std::path::PathBuf) -> rocket::http::Status {
+    rocket::http::Status::Ok
 }
 
 
@@ -51,7 +56,7 @@ fn rocket() -> _ {
                 routes::proxy::email_authorize_user,
                 routes::proxy::create_register_user,
                 routes::proxy::login_user,
-                routes::proxy::options_handler
+                options_handler
             ]
         )
 }
