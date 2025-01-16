@@ -37,6 +37,11 @@ impl Fairing for CORS {
     }
 }
 
+#[rocket::options("/<path..>")]
+fn options_handler(path: std::path::PathBuf) -> rocket::http::Status {
+    rocket::http::Status::Ok
+}
+
 #[rocket::async_trait]
 impl<'r> FromRequest<'r> for AuthenticatedUser {
     type Error = ();

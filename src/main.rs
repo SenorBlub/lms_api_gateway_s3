@@ -50,7 +50,8 @@ fn rocket() -> _ {
                 routes::proxy::authorize_user,
                 routes::proxy::email_authorize_user,
                 routes::proxy::create_register_user,
-                routes::proxy::login_user
+                routes::proxy::login_user,
+                routes::proxy::options_handler
             ]
         )
 }
